@@ -30,7 +30,7 @@
                         s += "<td>" + data[i].unit + "</td>";
                         s += "<td>" + data[i].price + "</td>";
                         s += "<td>" + data[i].discount + "</td>";
-                        s+="<td class=\"delete\"><button onclick=\"del_tr(this)\"><i class=\"icon-trash bigger-120\"></i>下架</button></td>";
+                        s+="<td class=\"delete\"><button onclick=\"deleteInfo(this)\"><i class=\"icon-trash bigger-120\"></i>下架</button></td>";
                         s += "</tr>";
                     }
                     console.log(s);
@@ -39,15 +39,35 @@
             });
         });
         // 删除一行
-        function del_tr(obj){
-
-            
-
-
+       /* function del_tr(obj){
             var index = $(obj).parents("tr").index(); //这个可获取当前tr的下标
             $(obj).parents("tr").remove();
+        }*/
+        function deleteInfo(obj) {
+            var str = $(obj).parents("tr").eq(0).text();
+            var id = str.substring(0,1);
+            console.log(id);
+            alert("确认删除吗？");
+            if (id != null) {
+                $.ajax({
+                    url: "delGoods",
+                    async: true,
+                    type: "post",
+                    data: {"id": id},
+                    success: function (data) {
+                        alert("删除成功！");
+                        // 删除成功后刷新页面
+                        window.location.reload();
+                    },
+                    error: function () {
+                        alert("请求失败");
+                    },
+                    dataType: "text"
+                });
+            }
         }
     </script>
+
 </head>
 <body>
 <div class="dvcontent">
