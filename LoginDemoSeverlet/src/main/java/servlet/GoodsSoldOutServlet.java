@@ -29,7 +29,6 @@ public class GoodsSoldOutServlet extends HttpServlet {
         resp.setContentType("text/html; charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         String str = req.getParameter("id");
-        System.out.println("fafafafffasfaf====>"+str);
         if(str != null  && !str.equals("")){
             Integer id = Integer.valueOf(str);
             Goods goods = queryGoodsById(id);

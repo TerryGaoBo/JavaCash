@@ -22,7 +22,7 @@
                     console.log(data);
                     var s = "";
                     for (var i = 0; i < data.length; i++) {
-                        s += "<tr>";
+                        s += "<tr id =\"infoTr\">";
                         s += "<td>" + data[i].id + "</td>";
                         s += "<td>" + data[i].name + "</td>";
                         s += "<td>" + data[i]["introduce"] + "</td>";
@@ -43,6 +43,10 @@
             var index = $(obj).parents("tr").index(); //这个可获取当前tr的下标
             $(obj).parents("tr").remove();
         }*/
+        function deleteInfo1(obj) {
+            var id2 = document.getElementById('infoTr');
+            console.log(id2);
+        }
         function deleteInfo(obj) {
             var str = $(obj).parents("tr").eq(0).text();
             var id = str.substring(0,1);

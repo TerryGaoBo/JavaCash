@@ -24,6 +24,7 @@ import java.sql.Statement;
 public class GoodsPutAwayServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("bound");
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
@@ -32,9 +33,12 @@ public class GoodsPutAwayServlet extends HttpServlet {
         String introduce = req.getParameter("introduce");
         String stock = req.getParameter("stock");
         String unit =  req.getParameter("unit");
-        String price =  req.getParameter("price");
-        String discount =  req.getParameter("discount");
 
+        String price =  req.getParameter("price");
+        double doublePrice = Double.valueOf(price);
+        int realPrice = new Double(100 * doublePrice).intValue();
+
+        String discount =  req.getParameter("discount");
 
         Connection connection = null;
         PreparedStatement ps = null;
@@ -50,10 +54,9 @@ public class GoodsPutAwayServlet extends HttpServlet {
             ps.setString(2,introduce);
             ps.setInt(3,Integer.parseInt(stock));
             ps.setString(4,unit);
-            ps.setInt(5,Integer.parseInt(price));
+            ps.setInt(5,realPrice);
             ps.setInt(6,Integer.parseInt(discount));
             ps.executeUpdate();
-            //resp.sendRedirect("login.html");
             resp.sendRedirect("inbound.html");
         } catch (Exception e) {
             e.printStackTrace();
