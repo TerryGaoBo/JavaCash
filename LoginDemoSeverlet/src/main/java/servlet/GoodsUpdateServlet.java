@@ -57,7 +57,7 @@ public class GoodsUpdateServlet extends HttpServlet {
                 goods.setDiscount(Integer.parseInt(discount));
                 boolean effect =  modifyGoods(goods);
                 if(effect) {
-                    resp.sendRedirect("updategoods.html");
+                    resp.sendRedirect("goodsbrowse.html");
                     System.out.println("商品更新成功");
                 }else {
                     System.out.println("商品更新失败");
