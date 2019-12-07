@@ -41,7 +41,7 @@ public class GoodsBrowseServlet extends HttpServlet {
         ResultSet rs = null;
         List<Goods> list = new ArrayList<>();
         try {
-            connection = DBUtil.getConnection();
+            connection = DBUtil.getConnection(true);
             String sql = "select id,name,introduce,stock,unit," +
                     "price,discount from goods";
             ps = connection.prepareStatement(sql);

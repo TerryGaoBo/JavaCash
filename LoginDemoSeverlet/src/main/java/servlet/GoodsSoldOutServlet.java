@@ -29,6 +29,7 @@ public class GoodsSoldOutServlet extends HttpServlet {
         resp.setContentType("text/html; charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
         String str = req.getParameter("id");
+        System.out.println("下架："+str);
         if(str != null  && !str.equals("")){
             Integer id = Integer.valueOf(str);
             Goods goods = queryGoodsById(id);
@@ -51,7 +52,7 @@ public class GoodsSoldOutServlet extends HttpServlet {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            connection = DBUtil.getConnection();
+            connection = DBUtil.getConnection(true);
             String sql = "select id, name, introduce, stock, unit, price, discount from goods where  id =?";
             ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
@@ -73,7 +74,7 @@ public class GoodsSoldOutServlet extends HttpServlet {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            connection = DBUtil.getConnection();
+            connection = DBUtil.getConnection(true);
             String sql = "delete  from goods where  id=?";
             ps = connection.prepareStatement(sql);
             ps.setInt(1, goodsId);

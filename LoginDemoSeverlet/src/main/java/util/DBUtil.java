@@ -53,9 +53,12 @@ public class DBUtil {
      * 根据数据库连接池获取连接
      * @return
      */
-    public static Connection getConnection(){
+    public static Connection getConnection(boolean autoCommit){
         try {
-            return getDataSource().getConnection();
+            Connection connection = getDataSource().getConnection();
+            //如果true  每写一条语句 自动进行提交
+            connection.setAutoCommit(autoCommit);
+            return connection;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("获取数据库连接失败");

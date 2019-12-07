@@ -47,7 +47,7 @@ public class GoodsPutAwayServlet extends HttpServlet {
             String sql = "insert into " +
                     "goods(name,introduce,stock,unit,price,discount)" +
                     "values(?,?,?,?,?,?)";
-            connection = DBUtil.getConnection();
+            connection = DBUtil.getConnection(true);
             ps = connection.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
             ps.setString(1,name);

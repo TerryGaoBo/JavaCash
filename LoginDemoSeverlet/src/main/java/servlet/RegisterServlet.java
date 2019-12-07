@@ -35,7 +35,7 @@ public class RegisterServlet extends HttpServlet {
         try {
             String sql = "insert into account(username,password," +
                     "account_type,account_status) values(?,?,?,?)";
-            connection = DBUtil.getConnection();
+            connection = DBUtil.getConnection(true);
             ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, username);
             ps.setString(2, password);

@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
         try {
             String sql = "select id,username,password,account_type,account_status " +
                     "from account where username=?and password=?";
-            connection = DBUtil.getConnection();
+            connection = DBUtil.getConnection(true);
             ps = connection.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2,password);

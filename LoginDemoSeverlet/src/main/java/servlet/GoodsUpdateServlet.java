@@ -73,7 +73,7 @@ public class GoodsUpdateServlet extends HttpServlet {
         boolean effect = false;
 
         try {
-            connection = DBUtil.getConnection();
+            connection = DBUtil.getConnection(true);
             String sql = "update goods set name=?," +
                     "introduce=?,stock=?,unit=?," +
                     "price=?,discount=? where id=?";
@@ -99,7 +99,7 @@ public class GoodsUpdateServlet extends HttpServlet {
         ResultSet resultSet = null;
         Goods goods = null;
         try {
-            connection = DBUtil.getConnection();
+            connection = DBUtil.getConnection(true);
             String sql = "select * from goods where id=?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1,goodsId);

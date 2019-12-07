@@ -92,6 +92,7 @@ public class OrderPayServlet extends HttpServlet {
         HttpSession httpSession = req.getSession(true);
         httpSession.setAttribute("order",order);
 
+        httpSession.setAttribute("goodsList",goodsList);
 
         resp.getWriter().println("<html>");
         resp.getWriter().println("<p>"+"【用户名称】:"+order.getAccount_name()+"</p>");
@@ -110,10 +111,14 @@ public class OrderPayServlet extends HttpServlet {
         resp.getWriter().println("<p>"+"【优惠金额】:"+this.moneyToString(order.getDiscount()) +"</p>");
         resp.getWriter().println("<p>"+"【应支付金额】:"+this.moneyToString(order.getActual_amount()) +"</p>");
 
-        resp.getWriter().println("<a href= \"login.html\">确认</a>");
-        resp.getWriter().println("<a href= \"goodsbrowse.html\">取消</a>");
+        //resp.getWriter().println("<a href= \"buyGoodsSuccess.html\">确认</a>");
+        //resp.getWriter().println("<a href=\"buyGoodsServlet\">确认</a>");
+        resp.getWriter().println("<form action=\"buyGoodsServlet\" method=\"post\"><button type=\"submit\">确认</button></form>");
+
+        resp.getWriter().println("<a href= \"index.html\">取消</a>");
 
         resp.getWriter().println("</html>");
+
 
     }
 
@@ -136,12 +141,12 @@ public class OrderPayServlet extends HttpServlet {
     }*/
 
     //通过id查找 对应的货物
-    public Goods queryGoodsById(Integer id) {
+    private Goods queryGoodsById(Integer id) {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            connection = DBUtil.getConnection();
+            connection = DBUtil.getConnection(true);
             String sql = "select * from goods where id=?";
             ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
