@@ -82,7 +82,7 @@ public class GoodsUpdateServlet extends HttpServlet {
             ps.setString(2,goods.getIntroduce());
             ps.setInt(3,goods.getStock());
             ps.setString(4,goods.getUnit());
-            ps.setInt(5,goods.getPrice());
+            ps.setInt(5,goods.getPrice_fen());
             ps.setInt(6,goods.getDiscount());
             ps.setInt(7,goods.getId());
             effect = (ps.executeUpdate()==1);

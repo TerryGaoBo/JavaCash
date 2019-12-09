@@ -61,7 +61,9 @@ public class OrderPayServlet extends HttpServlet {
         order.setId(String.valueOf(System.currentTimeMillis()));
         order.setAccount_id(account.getId());
         order.setAccount_name(account.getName());
-        order.setCreate_time(LocalDateTime.now());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        order.setCreate_time(LocalDateTime.now().format(formatter));
 
         int totalMoney = 0;
         int actualMoney = 0;
@@ -74,11 +76,11 @@ public class OrderPayServlet extends HttpServlet {
             orderItem.setGoodsIntroduce(goods.getIntroduce());
             orderItem.setGoodsNum(goods.getBuyGoodsNum());
             orderItem.setGoodsUnit(goods.getUnit());
-            orderItem.setGoodsPrice(goods.getPrice());
+            orderItem.setGoodsPrice(goods.getPrice_fen());
             orderItem.setGoodsDiscount(goods.getDiscount());
             order.orderItemList.add(orderItem);
 
-            int currentMoney = goods.getBuyGoodsNum()*goods.getPrice();
+            int currentMoney = goods.getBuyGoodsNum()*goods.getPrice_fen();
             totalMoney += currentMoney;
             actualMoney += currentMoney*goods.getDiscount()/100;
         }
@@ -97,23 +99,23 @@ public class OrderPayServlet extends HttpServlet {
         resp.getWriter().println("<html>");
         resp.getWriter().println("<p>"+"【用户名称】:"+order.getAccount_name()+"</p>");
         resp.getWriter().println("<p>"+"【订单编号】:"+order.getId()+"</p>");
-        resp.getWriter().println("<p>"+"【订单状态】:"+order.getOrder_status().getDesc()+"</p>");
-        resp.getWriter().println("<p>"+"【创建时间】:"+this.timeToString(order.getCreate_time())+"</p>");
+        resp.getWriter().println("<p>"+"【订单状态】:"+order.getOrder_statusDesc().getDesc()+"</p>");
+        resp.getWriter().println("<p>"+"【创建时间】:"+order.getCreate_time()+"</p>");
 
         resp.getWriter().println("<p>"+"编号  "+"名称   "+"数量  "+"单位  "+"单价（元）   "+"</p>");
         resp.getWriter().println("<ol>");
         for (OrderItem orderItem  : order.orderItemList) {
             resp.getWriter().println("<li>" + orderItem.getGoodsName() +" " + orderItem.getGoodsNum()+ " "+
-                    orderItem.getGoodsUnit()+" " + this.moneyToString(orderItem.getGoodsPrice())+"</li>");
+                    orderItem.getGoodsUnit()+" " + orderItem.getGoodsPrice()+"</li>");
         }
         resp.getWriter().println("</ol>");
-        resp.getWriter().println("<p>"+"【总金额】:"+this.moneyToString(order.getTotal_money()) +"</p>");
-        resp.getWriter().println("<p>"+"【优惠金额】:"+this.moneyToString(order.getDiscount()) +"</p>");
-        resp.getWriter().println("<p>"+"【应支付金额】:"+this.moneyToString(order.getActual_amount()) +"</p>");
+        resp.getWriter().println("<p>"+"【总金额】:"+order.getTotal_money() +"</p>");
+        resp.getWriter().println("<p>"+"【优惠金额】:"+order.getDiscount() +"</p>");
+        resp.getWriter().println("<p>"+"【应支付金额】:"+order.getActual_amount() +"</p>");
 
-        //resp.getWriter().println("<a href= \"buyGoodsSuccess.html\">确认</a>");
-        //resp.getWriter().println("<a href=\"buyGoodsServlet\">确认</a>");
-        resp.getWriter().println("<form action=\"buyGoodsServlet\" method=\"post\"><button type=\"submit\">确认</button></form>");
+
+        resp.getWriter().println("<a href=\"buyGoodsServlet\">确认</a>");
+        //resp.getWriter().println("<form action=\"buyGoodsServlet\" method=\"post\"><button type=\"submit\">确认</button></form>");
 
         resp.getWriter().println("<a href= \"index.html\">取消</a>");
 
@@ -122,23 +124,6 @@ public class OrderPayServlet extends HttpServlet {
 
     }
 
-    private String moneyToString(int money) {
-        return String.format("%.2f", 1.00D * money / 100);
-    }
-    private String timeToString(LocalDateTime time) {
-        return DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(time);
-    }
-
-    /*@Override
-    protected void doHead(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().println("<html>");
-        resp.getWriter().println("<ol>");
-        for (int i = 0; i <5; i++){
-            resp.getWriter("<li>" + sss +"</li>");
-        }
-        resp.getWriter().println("</ol>");
-        resp.getWriter().println("</html>");
-    }*/
 
     //通过id查找 对应的货物
     private Goods queryGoodsById(Integer id) {

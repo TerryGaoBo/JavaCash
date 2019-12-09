@@ -41,7 +41,7 @@ public class RegisterServlet extends HttpServlet {
             ps.setString(2, password);
             ps.setInt(3,1);
             ps.setInt(4,1);
-            resultSet = ps.getGeneratedKeys();
+            //resultSet = ps.getGeneratedKeys();
             ps.executeUpdate();
             /*if (resultSet.next()) {
                 Integer id = resultSet.getInt(1);
@@ -49,7 +49,6 @@ public class RegisterServlet extends HttpServlet {
             }*/
             resp.sendRedirect("login.html");
         } catch (Exception e) {
-            //LOG.error("用户注册出错", e);
             e.printStackTrace();
         } finally {
             DBUtil.close(connection, ps, null);
